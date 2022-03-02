@@ -47,13 +47,7 @@ class CsNet(nn.Module):
         [b, c, h, w] = x.shape
 
         x = self.sample(x)
-        """
-        noise = np.random.normal(loc=0, scale=0.1, size=x.shape)
-        noise = torch.from_numpy(noise)
-        noise = noise.type(torch.FloatTensor).cuda()
-
-        x = x + noise
-        """
+        
         x = self.initial(x)
         initial = nn.PixelShuffle(32)(x)
         out = self.relu(self.conv1(initial))
