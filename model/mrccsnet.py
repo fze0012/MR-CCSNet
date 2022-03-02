@@ -29,7 +29,7 @@ class MRCCSNet(nn.Module):
         n_feats_hsc = 32
 
         if sensing_rate == 0.5:
-            self.hsc = nn.Sequential(
+            self.gsm = nn.Sequential(
                 nn.Conv2d(1, n_feats_hsc, kernel_size=3, padding=1, stride=1, bias=False),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
                 nn.Conv2d(n_feats_hsc, 2, kernel_size=1, padding=0, stride=1, bias=False),
@@ -38,7 +38,7 @@ class MRCCSNet(nn.Module):
             self.initial = nn.Conv2d(2, 4, kernel_size=1, padding=0, stride=1, bias=False)
             self.m = 2
         elif sensing_rate == 0.25:
-            self.hsc = nn.Sequential(
+            self.gsm = nn.Sequential(
                 nn.Conv2d(1, n_feats_hsc, kernel_size=3, padding=1, stride=1, bias=False),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
@@ -47,7 +47,7 @@ class MRCCSNet(nn.Module):
             self.initial = nn.Conv2d(4, 16, kernel_size=1, padding=0, stride=1, bias=False)
             self.m = 4
         elif sensing_rate == 0.125:
-            self.hsc = nn.Sequential(
+            self.gsm = nn.Sequential(
                 nn.Conv2d(1, n_feats_hsc, kernel_size=3, padding=1, stride=1, bias=False),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
@@ -56,7 +56,7 @@ class MRCCSNet(nn.Module):
             self.initial = nn.Conv2d(2, 16, kernel_size=1, padding=0, stride=1, bias=False)
             self.m = 4
         elif sensing_rate == 0.0625:
-            self.hsc = nn.Sequential(
+            self.gsm = nn.Sequential(
                 nn.Conv2d(1, n_feats_hsc, kernel_size=3, padding=1, stride=1, bias=False),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
@@ -67,7 +67,7 @@ class MRCCSNet(nn.Module):
             self.initial = nn.Conv2d(4, 64, kernel_size=1, padding=0, stride=1, bias=False)
             self.m = 8
         elif sensing_rate == 0.03125:
-            self.hsc = nn.Sequential(
+            self.gsm = nn.Sequential(
                 nn.Conv2d(1, n_feats_hsc, kernel_size=3, padding=1, stride=1, bias=False),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
@@ -77,7 +77,7 @@ class MRCCSNet(nn.Module):
             self.initial = nn.Conv2d(2, 64, kernel_size=1, padding=0, stride=1, bias=False)
             self.m = 8
         elif sensing_rate == 0.015625:
-            self.hsc = nn.Sequential(
+            self.gsm = nn.Sequential(
                 nn.Conv2d(1, n_feats_hsc, kernel_size=3, padding=1, stride=1, bias=False),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
                 ResLayerPool(n_feats_hsc, n_feats_hsc),
@@ -150,7 +150,7 @@ class MRCCSNet(nn.Module):
         self.relu = nn.ReLU(inplace=True)
 
     def forward(self, x):
-        xsample = self.hsc(x)
+        xsample = self.gsm(x)
         x = self.initial(xsample)
         initial = nn.PixelShuffle(self.m)(x)
 
