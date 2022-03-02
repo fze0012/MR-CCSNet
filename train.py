@@ -26,7 +26,7 @@ def main():
     if args.model == 'rkccsnet':
         model = rkccsnet.RKCCSNet(sensing_rate=args.sensing_rate)
     elif args.model == 'mrccsnet':
-        model = mrccsnet.MMCCSNet(sensing_rate=args.sensing_rate)
+        model = mrccsnet.MRCCSNet(sensing_rate=args.sensing_rate)
     elif args.model == 'csnet':
         model = csnet.CsNet(sensing_rate=args.sensing_rate)
 
