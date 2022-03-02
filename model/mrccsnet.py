@@ -1,4 +1,3 @@
-# Reference from https://github.com/rkteddy/RK-CCSNet/blob/master/models/rkccsnet.py
 import torch
 from torch import nn
 
