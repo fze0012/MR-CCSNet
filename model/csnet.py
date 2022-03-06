@@ -20,9 +20,9 @@ class ResBlockbase(nn.Module):
         return out
 
 
-class CsNet(nn.Module):
+class CSNet(nn.Module):
     def __init__(self, sensing_rate):
-        super(CsNet, self).__init__()
+        super(CSNet, self).__init__()
 
         self.measurement = int(sensing_rate * 1024)
         self.base = 64
@@ -65,5 +65,5 @@ class CsNet(nn.Module):
 
 if __name__ == '__main__':
     image = torch.rand(4, 1, 96, 96).cpu()
-    net = CsNet(0.5).cpu()
+    net = CSNet(0.5).cpu()
     x = net(image)
