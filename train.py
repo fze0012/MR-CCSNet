@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='rkccsnet',
-                        choices=['mmccsnet', 'rkccsnet', 'csnet'],
+                        choices=['mrccsnet', 'rkccsnet', 'csnet'],
                         help='choose model to train')
     parser.add_argument('--sensing-rate', type=float, default=0.5,
                         choices=[0.50000, 0.25000, 0.12500, 0.06250, 0.03125, 0.015625],
