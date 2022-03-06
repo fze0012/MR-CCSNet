@@ -11,7 +11,7 @@ def data_loader(args):
     ])
 
     # Transformers for set5 and set14
-    # In quantitative comparsions, we resize all images into 256*256.
+    # In quantitative comparsions, we resize all images into 256*256(Set5,Set14) and 480*320(BSDS).
     # In visual comparisons, we crop all image into a*b where a and b are multiple of 32.
     val_set5 = torchvision.transforms.Compose([
         torchvision.transforms.Resize((256, 256)),
