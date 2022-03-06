@@ -28,7 +28,7 @@ def main():
     elif args.model == 'mrccsnet':
         model = mrccsnet.MRCCSNet(sensing_rate=args.sensing_rate)
     elif args.model == 'csnet':
-        model = csnet.CsNet(sensing_rate=args.sensing_rate)
+        model = csnet.CSNet(sensing_rate=args.sensing_rate)
 
     model = model.cuda()
     criterion = loss_fn
