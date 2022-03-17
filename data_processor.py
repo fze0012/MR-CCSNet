@@ -13,12 +13,12 @@ def data_loader(args):
     # Transformers for set5 and set14
     # In quantitative comparsions, we resize all images into 256*256.
     # In visual comparisons, we crop all image into a*b where a and b are multiple of 32.
-    val_set5 = torchvision.transforms.Compose([
+    test_set5 = torchvision.transforms.Compose([
         torchvision.transforms.Resize((256, 256)),
         torchvision.transforms.ToTensor(),
         # torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
     ])
-    val_set14 = torchvision.transforms.Compose([
+    test_set14 = torchvision.transforms.Compose([
         # torchvision.transforms.Resize((256, 256)),
         torchvision.transforms.ToTensor(),
         # torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
@@ -32,13 +32,13 @@ def data_loader(args):
     trn_dataset = torchvision.datasets.ImageFolder('./BSDS500/train', transform=trn_transforms)
 
     val_bsds = torchvision.datasets.ImageFolder('./BSDS500/val', transform=val_bsds)
-    val_set5 = torchvision.datasets.ImageFolder('./BSDS500/set5', transform=val_set5)
-    val_set14 = torchvision.datasets.ImageFolder('./BSDS500/set14', transform=val_set14)
+    test_set5 = torchvision.datasets.ImageFolder('./BSDS500/set5', transform=val_set5)
+    test_set14 = torchvision.datasets.ImageFolder('./BSDS500/set14', transform=val_set14)
 
     trn_loader = torch.utils.data.DataLoader(trn_dataset, batch_size=args.batch_size, shuffle=True, **kwopt,
                                              drop_last=False)
     val_loader_bsds = torch.utils.data.DataLoader(val_bsds, batch_size=1, shuffle=True, **kwopt, drop_last=False)
-    val_loader_set5 = torch.utils.data.DataLoader(val_set5, batch_size=1, shuffle=True, **kwopt, drop_last=False)
-    val_loader_set14 = torch.utils.data.DataLoader(val_set14, batch_size=1, shuffle=True, **kwopt, drop_last=False)
+    test_loader_set5 = torch.utils.data.DataLoader(test_set5, batch_size=1, shuffle=True, **kwopt, drop_last=False)
+    test_loader_set14 = torch.utils.data.DataLoader(test_set14, batch_size=1, shuffle=True, **kwopt, drop_last=False)
 
-    return trn_loader, val_loader_bsds, val_loader_set5, val_loader_set14
+    return trn_loader, val_loader_bsds, test_loader_set5, test_loader_set14
