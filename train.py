@@ -28,13 +28,13 @@ def main():
     elif args.model == 'mrccsnet':
         model = mrccsnet.MRCCSNet(sensing_rate=args.sensing_rate)
     elif args.model == 'csnet':
-        model = csnet.CsNet(sensing_rate=args.sensing_rate)
+        model = csnet.CSNet(sensing_rate=args.sensing_rate)
 
     model = model.cuda()
     criterion = loss_fn
     optimizer = optim.Adam(model.parameters(), lr=args.lr, betas=(0.9, 0.999))
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer, [60, 90, 120, 150, 180], gamma=0.25, last_epoch=-1)
-    train_loader, valid_loader_bsds, valid_loader_set5, valid_loader_set14 = data_loader(args)
+    train_loader, valid_loader_bsds, test_loader_set5, test_loader_set14 = data_loader(args)
 
     print('\nModel: %s\n'
           'Sensing Rate: %.6f\n'
@@ -43,23 +43,11 @@ def main():
           % (args.model, args.sensing_rate, args.epochs, args.lr))
 
     print('Start training')
-    min_psnr = 0
     for epoch in range(args.epochs):
         print('\ncurrent lr {:.5e}'.format(optimizer.param_groups[0]['lr']))
         loss = train(train_loader, model, criterion, optimizer, epoch)
         scheduler.step()
-        """
-        psnr1, ssim1 = valid_bsds(valid_loader_bsds, model, criterion)
-        print("----------BSDS----------PSNR: %.2f----------SSIM: %.4f" % (psnr1, ssim1))
-        psnr2, ssim2 = valid_set(valid_loader_set5, model, criterion)
-        print("----------Set5----------PSNR: %.2f----------SSIM: %.4f" % (psnr2, ssim2))
-        """
-
-        psnr3, ssim3 = valid_set(valid_loader_set14, model, criterion)
-        print("----------Set14----------PSNR: %.2f----------SSIM: %.4f" % (psnr3, ssim3))
-        if min_psnr < psnr3:
-            min_psnr = psnr3
-            torch.save(model.state_dict(), os.path.join(args.save_dir, args.model
+        torch.save(model.state_dict(), os.path.join(args.save_dir, args.model
                                                         + '_' + str(args.sensing_rate) + '.pth'))
 
     print('Trained finished.')
@@ -68,7 +56,6 @@ def main():
 
 if __name__ == '__main__':
     torch.cuda.set_device(0)
-
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='rkccsnet',
                         choices=['mrccsnet', 'rkccsnet', 'csnet'],
