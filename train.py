@@ -1,9 +1,6 @@
 import argparse
 import os
 import warnings
-
-warnings.filterwarnings("ignore")
-
 import models.rkccsnet as rkccsnet
 import models.mrccsnet as mrccsnet
 import models.csnet as csnet
@@ -11,6 +8,8 @@ from loss import *
 import torch.optim as optim
 from data_processor import *
 from trainer import *
+
+warnings.filterwarnings("ignore")
 
 
 def main():
@@ -47,8 +46,18 @@ def main():
         print('\ncurrent lr {:.5e}'.format(optimizer.param_groups[0]['lr']))
         loss = train(train_loader, model, criterion, optimizer, epoch)
         scheduler.step()
+        psnr1, ssim1 = valid_bsds(valid_loader_bsds, model, criterion)
+        print("----------BSDS----------PSNR: %.2f----------SSIM: %.4f" % (psnr1, ssim1))
+        psnr2, ssim2 = valid_set(test_loader_set5, model, criterion)
+        print("----------Set5----------PSNR: %.2f----------SSIM: %.4f" % (psnr2, ssim2))
+        psnr3, ssim3 = valid_set(test_loader_set14, model, criterion)
+        print("----------Set14----------PSNR: %.2f----------SSIM: %.4f" % (psnr3, ssim3))
+
         torch.save(model.state_dict(), os.path.join(args.save_dir, args.model
-                                                        + '_' + str(args.sensing_rate) + '.pth'))
+                                                    + '_' + str(args.sensing_rate)
+                                                    + '_' + str(psnr1)
+                                                    + '_' + str(psnr2)
+                                                    + '_' + str(psnr3) + '.pth'))
 
     print('Trained finished.')
     print('Model saved in %s' % (os.path.join(args.save_dir, args.model + '.pth')))
@@ -59,7 +68,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='rkccsnet',
                         choices=['mrccsnet', 'rkccsnet', 'csnet'],
-                        help='choose model to train')
+                        help='choose models to train')
     parser.add_argument('--sensing-rate', type=float, default=0.5,
                         choices=[0.50000, 0.25000, 0.12500, 0.06250, 0.03125, 0.015625],
                         help='set sensing rate')

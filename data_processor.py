@@ -30,8 +30,8 @@ def data_loader(args):
     
     trn_dataset = torchvision.datasets.ImageFolder('./BSDS500/train', transform=trn_transforms)
     val_bsds = torchvision.datasets.ImageFolder('./BSDS500/val', transform=val_bsds)
-    test_set5 = torchvision.datasets.ImageFolder('./BSDS500/set5', transform=val_set5)
-    test_set14 = torchvision.datasets.ImageFolder('./BSDS500/set14', transform=val_set14)
+    test_set5 = torchvision.datasets.ImageFolder('./BSDS500/set5', transform=test_set5)
+    test_set14 = torchvision.datasets.ImageFolder('./BSDS500/set14', transform=test_set14)
 
     trn_loader = torch.utils.data.DataLoader(trn_dataset, batch_size=args.batch_size, shuffle=True, **kwopt, drop_last=False)
     val_loader_bsds = torch.utils.data.DataLoader(val_bsds, batch_size=1, shuffle=True, **kwopt, drop_last=False)
