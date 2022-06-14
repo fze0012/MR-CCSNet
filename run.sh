@@ -1,2 +1,2 @@
-python train.py --model mrccsnet --sensing-rate 0.0625 --epochs 200 --batch-size 4 \
+python train.py --model mrccsnet --sensing-rate 0.5 --epochs 200 --batch-size 4 \
   --block-size 32 --image-size 96 --lr 1e-3 --save-dir save_temp

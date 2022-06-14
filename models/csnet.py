@@ -1,12 +1,10 @@
 # Reference from https://github.com/liujiawei2333/Compressed-sensing-CSNet/
 import torch.nn as nn
-import numpy as np
-import torch
 
 
-class ResBlockbase(nn.Module):
+class ResBlock(nn.Module):
     def __init__(self, n_feats, kernel_size, bias=True):
-        super(ResBlockbase, self).__init__()
+        super(ResBlock, self).__init__()
 
         self.conv1 = nn.Conv2d(n_feats, n_feats, kernel_size, padding=1, bias=bias)
         self.conv2 = nn.Conv2d(n_feats, n_feats, kernel_size, padding=1, bias=bias)
@@ -15,7 +13,7 @@ class ResBlockbase(nn.Module):
 
     def forward(self, x):
         out = self.relu1(self.conv1(x))
-        out += x
+        out = x + out
         out = self.relu2(self.conv2(out))
         return out
 
@@ -31,23 +29,20 @@ class CSNet(nn.Module):
         self.initial = nn.Conv2d(self.measurement, 1024, kernel_size=1, padding=0, stride=1, bias=False)
 
         self.conv1 = nn.Conv2d(1, self.base, kernel_size=3, padding=1, stride=1, bias=False)
-        self.res1 = ResBlockbase(self.base, 3)
-        self.res2 = ResBlockbase(self.base, 3)
-        self.res3 = ResBlockbase(self.base, 3)
-        self.res4 = ResBlockbase(self.base, 3)
-        self.res5 = ResBlockbase(self.base, 3)
-        self.res6 = ResBlockbase(self.base, 3)
-        self.res7 = ResBlockbase(self.base, 3)
-        self.res8 = ResBlockbase(self.base, 3)
+        self.res1 = ResBlock(self.base, 3)
+        self.res2 = ResBlock(self.base, 3)
+        self.res3 = ResBlock(self.base, 3)
+        self.res4 = ResBlock(self.base, 3)
+        self.res5 = ResBlock(self.base, 3)
+        self.res6 = ResBlock(self.base, 3)
+        self.res7 = ResBlock(self.base, 3)
+        self.res8 = ResBlock(self.base, 3)
         self.conv2 = nn.Conv2d(self.base, 1, kernel_size=3, padding=1, stride=1, bias=False)
 
         self.relu = nn.ReLU(inplace=True)
 
     def forward(self, x):
-        [b, c, h, w] = x.shape
-
         x = self.sample(x)
-        
         x = self.initial(x)
         initial = nn.PixelShuffle(32)(x)
         out = self.relu(self.conv1(initial))
@@ -62,8 +57,3 @@ class CSNet(nn.Module):
         out = self.conv2(out)
         return out + initial, initial
 
-
-if __name__ == '__main__':
-    image = torch.rand(4, 1, 96, 96).cpu()
-    net = CSNet(0.5).cpu()
-    x = net(image)

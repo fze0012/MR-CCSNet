@@ -53,11 +53,7 @@ def main():
         psnr3, ssim3 = valid_set(test_loader_set14, model, criterion)
         print("----------Set14----------PSNR: %.2f----------SSIM: %.4f" % (psnr3, ssim3))
 
-        torch.save(model.state_dict(), os.path.join(args.save_dir, args.model
-                                                    + '_' + str(args.sensing_rate)
-                                                    + '_' + str(psnr1)
-                                                    + '_' + str(psnr2)
-                                                    + '_' + str(psnr3) + '.pth'))
+
 
     print('Trained finished.')
     print('Model saved in %s' % (os.path.join(args.save_dir, args.model + '.pth')))
