@@ -33,7 +33,7 @@ def main():
     criterion = loss_fn
     optimizer = optim.Adam(model.parameters(), lr=args.lr, betas=(0.9, 0.999))
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer, [60, 90, 120, 150, 180], gamma=0.25, last_epoch=-1)
-    train_loader, valid_loader_bsds, test_loader_set5, test_loader_set14 = data_loader(args)
+    train_loader, test_loader_bsds, test_loader_set5, test_loader_set14 = data_loader(args)
 
     print('\nModel: %s\n'
           'Sensing Rate: %.6f\n'
@@ -46,7 +46,7 @@ def main():
         print('\ncurrent lr {:.5e}'.format(optimizer.param_groups[0]['lr']))
         loss = train(train_loader, model, criterion, optimizer, epoch)
         scheduler.step()
-        psnr1, ssim1 = valid_bsds(valid_loader_bsds, model, criterion)
+        psnr1, ssim1 = valid_bsds(test_loader_bsds, model, criterion)
         print("----------BSDS----------PSNR: %.2f----------SSIM: %.4f" % (psnr1, ssim1))
         psnr2, ssim2 = valid_set(test_loader_set5, model, criterion)
         print("----------Set5----------PSNR: %.2f----------SSIM: %.4f" % (psnr2, ssim2))
