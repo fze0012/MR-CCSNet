@@ -45,8 +45,6 @@ if __name__ == '__main__':
                         help='set sensing rate')
     parser.add_argument('--epochs', default=200, type=int, metavar='N',
                         help='number of total epochs to run')
-    parser.add_argument('--expert', default=2, type=int,
-                        help='number of expert of con_ker')
     parser.add_argument('-b', '--batch-size', default=4, type=int,
                         metavar='N', help='mini-batch size (default: 128)')
     parser.add_argument('--block-size', default=32, type=int,
