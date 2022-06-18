@@ -1,9 +1,9 @@
 import argparse
 import os
 import warnings
-import models.rkccsnet as rkccsnet
-import models.mrccsnet as mrccsnet
-import models.csnet as csnet
+import model.rkccsnet as rkccsnet
+import model.mrccsnet as mrccsnet
+import model.csnet as csnet
 from loss import *
 import torch.optim as optim
 from data_processor import *
@@ -53,8 +53,6 @@ def main():
         psnr3, ssim3 = valid_set(test_loader_set14, model, criterion)
         print("----------Set14----------PSNR: %.2f----------SSIM: %.4f" % (psnr3, ssim3))
 
-
-
     print('Trained finished.')
     print('Model saved in %s' % (os.path.join(args.save_dir, args.model + '.pth')))
 
@@ -64,7 +62,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default='rkccsnet',
                         choices=['mrccsnet', 'rkccsnet', 'csnet'],
-                        help='choose models to train')
+                        help='choose model to train')
     parser.add_argument('--sensing-rate', type=float, default=0.5,
                         choices=[0.50000, 0.25000, 0.12500, 0.06250, 0.03125, 0.015625],
                         help='set sensing rate')
@@ -79,7 +77,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr', '--learning-rate', default=1e-3, type=float,
                         metavar='LR', help='initial learning rate')
     parser.add_argument('--save-dir', dest='save_dir',
-                        help='The directory used to save the trained models',
+                        help='The directory used to save the trained model',
                         default='save_temp', type=str)
 
     main()
