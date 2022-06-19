@@ -1,4 +1,3 @@
-# Reference from https://github.com/rkteddy/RK-CCSNet/blob/master/models/rkccsnet.py
 import torch.nn.init as init
 import torch.nn as nn
 import math
