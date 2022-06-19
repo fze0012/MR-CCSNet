@@ -1,4 +1,3 @@
-# Reference from https://github.com/liujiawei2333/Compressed-sensing-CSNet/
 import torch.nn as nn
 
 
