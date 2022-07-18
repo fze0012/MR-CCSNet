@@ -54,7 +54,6 @@ def main():
         print("----------Set14----------PSNR: %.2f----------SSIM: %.4f" % (psnr3, ssim3))
 
     print('Trained finished.')
-    print('Model saved in %s' % (os.path.join(args.save_dir, args.model + '.pth')))
 
 
 if __name__ == '__main__':
