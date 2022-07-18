@@ -46,20 +46,9 @@ def valid_set(valid_loader, model, criterion):
     with torch.no_grad():
         for iters, (inputs, _) in enumerate(valid_loader):
             inputs = rgb_to_ycbcr(inputs.cuda())[:, 0, :, :].unsqueeze(1) / 255.
-
-            # torch.cuda.synchronize()
-            # start = time.time()
-
-            # torchvision.utils.save_image(inputs.data, '%s.tif' % ('ground'), padding=0)
             outputs = model(inputs)
-
-            # torch.cuda.synchronize()
-            # end = time.time()
-
-            # time_sum = time_sum + (end - start)
             mse = F.mse_loss(outputs[0], inputs)
             psnr = 10 * log10(1 / mse.item())
             sum_psnr += psnr
             sum_ssim += ssim(outputs[0], inputs)
-            # torchvision.utils.save_image(outputs[0].data, '%.2f_%.4f.tif' % (psnr, sum_ssim), padding=0)
     return sum_psnr / len(valid_loader), sum_ssim / len(valid_loader)
