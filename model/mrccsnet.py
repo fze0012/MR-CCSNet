@@ -2,7 +2,6 @@ import torch
 from torch import nn
 
 
-
 class ResLayerPool(nn.Module):
     def __init__(self, inchannel, outchannel):
         super(ResLayerPool, self).__init__()
@@ -677,5 +676,3 @@ class MRB2(nn.Module):
         x5 = self.conv5(torch.cat([x4, x], dim=1))
 
         return x5
-
-
