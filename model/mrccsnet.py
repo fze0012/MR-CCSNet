@@ -23,7 +23,7 @@ class MRCCSNet(nn.Module):
         super(MRCCSNet, self).__init__()
 
         self.sensing_rate = sensing_rate
-        self.measurement = int(sensing_rate * 1024)
+        # self.measurement = int(sensing_rate * 1024)
         self.base = 64
         self.blocksize = 32
         n_feats_csm = 32
